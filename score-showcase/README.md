@@ -17,7 +17,7 @@ Replace `SCORER_API_KEY` with your API key.
 Now you can start the app by running:
 
 ```bash
-cd <sample_app_directory> && npm install
+cd score-showcase && npm install
 ``` 
 then 
 
