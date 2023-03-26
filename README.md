@@ -8,8 +8,8 @@ There are three sample apps, each contained in their own directory.
   - The most basic sample app. Demonstrates how to query for a user's passport score via the scorer API and display it to them.
 - score-gating
   - Demonstrates how to query for a user's passport score via the scorer API and use it to determine if they can view gated content.
-- coming-soon
-  - Demonstrates how to integrate the passport scorer API into a realistic app.
+- airdrop
+  - Demonstrates how to integrate the passport scorer API into a realistic airdrop app.
 
 ## Getting Started
-Each sample app is a [Next.js](https://nextjs.org/) app and can be started by following the instructions found within each directories `README.md` file.
+Each sample app is a [Next.js](https://nextjs.org/) app and can be started by following the instructions found within each `README.md` file.
