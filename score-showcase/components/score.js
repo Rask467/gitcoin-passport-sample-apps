@@ -2,15 +2,38 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
-import { getAccount } from "@wagmi/core";
+import { useAccount } from "wagmi";
 
 // Change this to your scorer ID
 const SCORER_ID = 119;
 
 export default function Score() {
-  const account = getAccount();
-  const [nonce, setNonce] = useState("");
-  const [passportScore, setPassportScore] = useState(0);
+  useAccount({
+    async onConnect({ address }) {
+      //  Step #1 (Optional, only required if using the "signature" param when submitting a user's passport. See https://docs.passport.gitcoin.co/building-with-passport/scorer-api/endpoint-definition#submit-passport)
+      //    We call our /api/scorer-message endpoint (/pages/api/scorer-message.js) which internally calls /registry/signing-message
+      //    on the scorer API. Instead of calling /registry/signing-message directly, we call it via our api endpoint so we do not
+      //    expose our scorer API key to the frontend.
+      //    This will return a response like:
+      //    {
+      //      message: "I hereby agree to submit my address in order to score my associated Gitcoin Passport from Ceramic.",
+      //      nonce: "b7e3b0f86820744b9242dd99ce91465f10c961d98aa9b3f417f966186551"
+      //    }
+      const scorerMessageResponse = await axios.get("/api/scorer-message");
+      console.log("scorerMessageResponse: ", scorerMessageResponse);
+      setAddress(address);
+      setNonce(scorerMessageResponse.data.nonce);
+
+      //  Step #2 (Optional, only required if using the "signature" param when submitting a user's passport.)
+      //    Have the user sign the message that was returned from the scorer api in Step #1.
+      signMessage({ message: scorerMessageResponse.data.message });
+    },
+    onDisconnect() {
+      setAddress("");
+      setNonce("");
+      setPassportScore(0);
+    },
+  });
 
   const { signMessage } = useSignMessage({
     async onSuccess(data, variables) {
@@ -31,7 +54,7 @@ export default function Score() {
       //      status: "PROCESSING"
       //    }
       const submitResponse = await axios.post("/api/submit-passport", {
-        address: account.address, // Required: The user's address you'd like to score.
+        address: address, // Required: The user's address you'd like to score.
         community: SCORER_ID, // Required: get this from one of your scorers in the Scorer API dashboard https://scorer.gitcoin.co/
         signature: data, // Optional: The signature of the message returned in step #1
         nonce: nonce, // Optional: The nonce returned in Step #1
@@ -59,31 +82,16 @@ export default function Score() {
     },
   });
 
-  useEffect(() => {
-    async function scorePassport() {
-      //  Step #1 (Optional, only required if using the "signature" param when submitting a user's passport. See https://docs.passport.gitcoin.co/building-with-passport/scorer-api/endpoint-definition#submit-passport)
-      //    We call our /api/scorer-message endpoint (/pages/api/scorer-message.js) which internally calls /registry/signing-message
-      //    on the scorer API. Instead of calling /registry/signing-message directly, we call it via our api endpoint so we do not
-      //    expose our scorer API key to the frontend.
-      //    This will return a response like:
-      //    {
-      //      message: "I hereby agree to submit my address in order to score my associated Gitcoin Passport from Ceramic.",
-      //      nonce: "b7e3b0f86820744b9242dd99ce91465f10c961d98aa9b3f417f966186551"
-      //    }
-      const scorerMessageResponse = await axios.get("/api/scorer-message");
-      console.log("scorerMessageResponse: ", scorerMessageResponse);
-      setNonce(scorerMessageResponse.data.nonce);
-
-      //  Step #2 (Optional, only required if using the "signature" param when submitting a user's passport.)
-      //    Have the user sign the message that was returned from the scorer api in Step #1.
-      signMessage({ message: scorerMessageResponse.data.message });
-    }
-    scorePassport();
-  }, []);
+  const [address, setAddress] = useState("");
+  const [nonce, setNonce] = useState("");
+  const [passportScore, setPassportScore] = useState(0);
 
   return (
     <div>
-      <p>Your score is: {passportScore}</p>
+      <p>
+        Your passport score is:{" "}
+        <span style={{ color: "rgb(111 63 245" }}>{passportScore}</span>
+      </p>
     </div>
   );
 }

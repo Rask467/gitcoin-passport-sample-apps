@@ -32,8 +32,8 @@ export default function Home() {
                 src="/gitcoinWordLogo.svg"
                 alt="Gitcoin Logo"
                 className={styles.gitcoinLogo}
-                width={100}
-                height={24}
+                width={150}
+                height={34}
                 priority
               />
             </a>
