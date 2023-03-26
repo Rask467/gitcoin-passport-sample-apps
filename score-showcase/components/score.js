@@ -88,10 +88,14 @@ export default function Score() {
 
   return (
     <div>
-      <p>
-        Your passport score is:{" "}
-        <span style={{ color: "rgb(111 63 245" }}>{passportScore}</span>
-      </p>
+      {address === "" ? (
+        <p>Connect wallet to view your passport score</p>
+      ) : (
+        <p>
+          Your passport score is:{" "}
+          <span style={{ color: "rgb(111 63 245" }}>{passportScore}</span>
+        </p>
+      )}
     </div>
   );
 }
