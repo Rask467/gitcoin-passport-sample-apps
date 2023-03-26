@@ -2,6 +2,12 @@ const axios = require("axios");
 require("dotenv").config();
 
 export default async function handler(req, res) {
+  const { address, community, signature, nonce } = req.body;
+  const data = await submitPassport(address, community, signature, nonce);
+  res.status(200).json(data);
+}
+
+async function submitPassport(address, community, signature, nonce) {
   const axiosSubmitPassportConfig = {
     headers: {
       "X-API-KEY": process.env.SCORER_API_KEY,
@@ -10,19 +16,16 @@ export default async function handler(req, res) {
     },
   };
 
-  console.log("body: ", req.body);
-
   const axiosSubmitPassportData = {
-    address: req.body.address,
-    community: req.body.community,
-    signature: req.body.signature,
-    nonce: req.body.nonce,
+    address: address,
+    community: community,
+    signature: signature,
+    nonce: nonce,
   };
-  const resp = await axios.post(
+  const { data } = await axios.post(
     "https://api.scorer.gitcoin.co/registry/submit-passport",
     axiosSubmitPassportData,
     axiosSubmitPassportConfig
   );
-
-  res.status(200).json(resp.data);
+  return data;
 }

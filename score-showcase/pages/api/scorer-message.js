@@ -17,9 +17,9 @@ async function fetchMessageAndNonce() {
       "Content-Type": "application/json",
     },
   };
-  const resp = await axios.get(
+  const { data } = await axios.get(
     "https://api.scorer.gitcoin.co/registry/signing-message",
     axiosSigningMessageConfig
   );
-  return resp.data;
+  return data;
 }

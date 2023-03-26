@@ -14,7 +14,7 @@ export default function Home() {
         <title>Score Showcase</title>
         <meta
           name="description"
-          content="A sample app to demonstrate using the Gitcoin scorer API"
+          content="A sample app to demonstrate using the Gitcoin passport scorer API"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -43,7 +43,6 @@ export default function Home() {
 
         <div className={styles.center}>
           <h1 className={inter.className}>
-            Gitcoin Passport Score Showcase Sample App
             <Score />
           </h1>
         </div>
