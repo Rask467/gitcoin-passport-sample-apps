@@ -85,6 +85,7 @@ export default function Gate() {
 
       // Make sure to check the status
       if (scoreResponse.data.status === "ERROR") {
+        setPassportScore(0);
         alert(scoreResponse.data.error);
         return;
       }
