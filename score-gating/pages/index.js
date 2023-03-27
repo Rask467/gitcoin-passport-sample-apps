@@ -27,7 +27,6 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              By{" "}
               <Image
                 src="/gitcoinWordLogo.svg"
                 alt="Gitcoin Logo"

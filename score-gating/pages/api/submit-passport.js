@@ -17,10 +17,10 @@ async function submitPassport(address, community, signature, nonce) {
   };
 
   const axiosSubmitPassportData = {
-    address: address,
-    community: community,
-    signature: signature,
-    nonce: nonce,
+    address,
+    community,
+    signature,
+    nonce,
   };
   const { data } = await axios.post(
     "https://api.scorer.gitcoin.co/registry/submit-passport",
