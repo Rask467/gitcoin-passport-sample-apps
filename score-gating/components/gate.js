@@ -4,11 +4,8 @@ import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
 import { useAccount } from "wagmi";
 
-// Change this to your scorer ID
-const SCORER_ID = 119;
-
 export default function Gate() {
-  const { address, isConnected } = useAccount({
+  const { address } = useAccount({
     onDisconnect() {
       setNonce("");
       setPassportScore(0);
@@ -16,6 +13,8 @@ export default function Gate() {
   });
 
   useEffect(() => {
+    setNonce("");
+    setPassportScore(0);
     async function fetchPassportScore() {
       //  Step #1 (Optional, only required if using the "signature" param when submitting a user's passport. See https://docs.passport.gitcoin.co/building-with-passport/scorer-api/endpoint-definition#submit-passport)
       //    We call our /api/scorer-message endpoint (/pages/api/scorer-message.js) which internally calls /registry/signing-message
@@ -61,7 +60,7 @@ export default function Gate() {
       //    }
       const submitResponse = await axios.post("/api/submit-passport", {
         address: address, // Required: The user's address you'd like to score.
-        community: SCORER_ID, // Required: get this from one of your scorers in the Scorer API dashboard https://scorer.gitcoin.co/
+        community: process.env.NEXT_PUBLIC_SCORER_ID, // Required: get this from one of your scorers in the Scorer API dashboard https://scorer.gitcoin.co/
         signature: data, // Optional: The signature of the message returned in Step #1
         nonce: nonce, // Optional: The nonce returned in Step #1
       });
@@ -69,7 +68,7 @@ export default function Gate() {
 
       //  Step #4
       //    Finally, we can get the user's passport score.
-      //    We call our /api/score/{address} endpoint (/pages/api/score/[scorer_id]/[address]/index.js) which internally calls
+      //    We call our /api/score/{scorer_id}/{address} endpoint (/pages/api/score/[scorer_id]/[address].js) which internally calls
       //    /registry/score/{scorer_id}/{address}
       //    This will return a response like:
       //    {
@@ -80,7 +79,9 @@ export default function Gate() {
       //      score: "1.574606692",
       //      status: ""DONE""
       //    }
-      const scoreResponse = await axios.get(`/api/score/${address}`);
+      const scoreResponse = await axios.get(
+        `/api/score/${process.env.NEXT_PUBLIC_SCORER_ID}/${address}`
+      );
       console.log("scoreResponse: ", scoreResponse.data);
 
       // Make sure to check the status
@@ -100,14 +101,10 @@ export default function Gate() {
 
   return (
     <div>
-      {isConnected ? (
-        passportScore > 1 ? (
-          <p>Special content!</p>
-        ) : (
-          <p>You don't have a high enough score.</p>
-        )
+      {passportScore > 1 ? (
+        <p>Special content!</p>
       ) : (
-        <p>Connect wallet to view the gated content</p>
+        <p>You don't have a high enough score.</p>
       )}
     </div>
   );

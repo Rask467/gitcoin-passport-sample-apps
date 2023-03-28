@@ -6,12 +6,13 @@ This sample app connects to a user's wallet, then fetches their passport score f
 
 ## Getting Started
 
-### Create your API key
-First create your API key by going to [Gitcoin Passport Scorer](https://scorer.gitcoin.co) and clicking on the "API Keys" section.
+### Create your API key and Scorer
+1. Create your API key by going to [Gitcoin Passport Scorer](https://scorer.gitcoin.co) and clicking on the "API Keys" section.
+  Then create a `.env` file and copy the contents of the `example.env` file into it.
+  Replace `SCORER_API_KEY` with your API key.
 
-Then create a `.env` file and copy the contents of the `example.env` file into it.
-
-Replace `SCORER_API_KEY` with your API key.
+1. Create a Scorer, by clicking on the "Scorer" section.
+  Then create a `.env.local` file and copy the contents of the `example.env.local` file into it. Replace `NEXT_PUBLIC_SCORER_ID` with your Scorer ID.
 
 ### Start the app
 Now you can start the app by running:

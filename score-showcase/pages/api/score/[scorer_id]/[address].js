@@ -1,15 +1,13 @@
 const axios = require("axios");
 require("dotenv").config();
 
-const SCORER_ID = "119";
-
 export default async function handler(req, res) {
-  const { address } = req.query;
-  const data = await fetchScore(address);
+  const { address, scorer_id: scorerId } = req.query;
+  const data = await fetchScore(address, scorerId);
   res.status(200).json(data);
 }
 
-async function fetchScore(address) {
+async function fetchScore(address, scorerId) {
   const axiosGetScoreConfig = {
     headers: {
       "X-API-KEY": process.env.SCORER_API_KEY,
@@ -18,7 +16,7 @@ async function fetchScore(address) {
     },
   };
   const { data } = await axios.get(
-    `https://api.scorer.gitcoin.co/registry/score/${SCORER_ID}/${address}`,
+    `https://api.scorer.gitcoin.co/registry/score/${scorerId}/${address}`,
     axiosGetScoreConfig
   );
 
