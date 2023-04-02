@@ -13,6 +13,15 @@ export default function AirDrop() {
 
   useEffect(() => {
     reset();
+    // Query the airdrop_addresses table to check if this user is already in the aidrop list.
+    async function checkIfAddressAlreadyInAirdropList() {
+      const resp = await axios.post(`/api/airdrop/check/${address}`);
+      if (resp.data && resp.data.address) {
+        setChecked(true);
+        setPassportScore(resp.data.score);
+      }
+    }
+    checkIfAddressAlreadyInAirdropList();
   }, [address]);
 
   async function addToAirdrop() {
@@ -82,7 +91,7 @@ export default function AirDrop() {
       //    We check if the returned score is above our threshold to qualify for the airdrop.
       //    If the score is above our threshold, we add the user to the airdrop list.
       const scoreResponse = await axios.get(
-        `/api/airdrop/${process.env.NEXT_PUBLIC_SCORER_ID}/${address}`
+        `/api/airdrop/add/${process.env.NEXT_PUBLIC_SCORER_ID}/${address}`
       );
       console.log("scoreResponse: ", scoreResponse.data);
 
