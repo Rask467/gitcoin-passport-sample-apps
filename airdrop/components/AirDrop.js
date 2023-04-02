@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 
 export default function AirDrop() {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const { address } = useAccount({
     onDisconnect() {
       reset();
@@ -14,6 +17,7 @@ export default function AirDrop() {
   useEffect(() => {
     reset();
     // Query the airdrop_addresses table to check if this user is already in the aidrop list.
+    // If they are there is no need to connect to the scorer API, we can display their passport score immediately.
     async function checkIfAddressAlreadyInAirdropList() {
       const resp = await axios.post(`/api/airdrop/check/${address}`);
       if (resp.data && resp.data.address) {
@@ -120,12 +124,15 @@ export default function AirDrop() {
     setChecked(false);
   }
 
+  // This is mounted check is needed to prevent hydration errors with next.js server side rendering.
+  // See https://github.com/wagmi-dev/wagmi/issues/542 for more details.
+  const [isMounted, setIsMounted] = useState(false);
   const [nonce, setNonce] = useState("");
   const [passportScore, setPassportScore] = useState(0);
   const [checked, setChecked] = useState(false);
 
   function display() {
-    if (address) {
+    if (isMounted && address) {
       if (checked) {
         if (passportScore < 1) {
           return (
