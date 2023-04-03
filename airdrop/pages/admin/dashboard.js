@@ -3,23 +3,16 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Dashboard.module.css";
 import axios from "axios";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Dashboard({ data }) {
-  function renderAddresses() {
-    return data.map((d) => {
-      return (
-        <tr key={d.address}>
-          <td>{d.address}</td>
-        </tr>
-      );
-    });
-  }
+  const [merkleRoot, setMerkleRoot] = useState("");
 
   async function getMerkleRoot() {
     const resp = await axios.get("/api/admin/merkle");
-    console.log(resp.data);
+    setMerkleRoot(resp.data);
   }
 
   function downloadData() {
@@ -77,17 +70,38 @@ export default function Dashboard({ data }) {
           </div>
         </div>
         <div>
-          <button onClick={downloadData}>Download Airdrop Data</button>
-          <button onClick={getMerkleRoot}>Generate Merkle Root</button>
           <h2>Total eligible addresses: {data.length}</h2>
-          <table>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "left" }}>Address</th>
-              </tr>
-            </thead>
-            <tbody>{renderAddresses()}</tbody>
-          </table>
+          <div style={{ marginTop: "20px" }}>
+            <button
+              style={{
+                padding: "20px 30px",
+                backgroundColor: "rgb(111 63 245",
+                border: "none",
+                color: "white",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+              onClick={getMerkleRoot}
+            >
+              Generate Merkle Root
+            </button>
+            {merkleRoot !== "" ? <h4>Merkle Root: {merkleRoot}</h4> : null}
+          </div>
+          <div style={{ marginTop: "20px" }}>
+            <button
+              style={{
+                padding: "20px 25px",
+                backgroundColor: "rgb(111 63 245",
+                border: "none",
+                color: "white",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+              onClick={downloadData}
+            >
+              Download Airdrop Data
+            </button>
+          </div>
         </div>
 
         <div className={styles.grid}></div>
