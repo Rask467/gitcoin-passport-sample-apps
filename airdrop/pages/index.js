@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Score Gating</title>
+        <title>Airdrop</title>
         <meta
           name="description"
           content="A sample app to demonstrate using the Gitcoin passport scorer API"

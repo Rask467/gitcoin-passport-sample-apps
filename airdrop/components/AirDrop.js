@@ -124,7 +124,7 @@ export default function AirDrop() {
     setChecked(false);
   }
 
-  // This is mounted check is needed to prevent hydration errors with next.js server side rendering.
+  // This isMounted check is needed to prevent hydration errors with next.js server side rendering.
   // See https://github.com/wagmi-dev/wagmi/issues/542 for more details.
   const [isMounted, setIsMounted] = useState(false);
   const [nonce, setNonce] = useState("");
