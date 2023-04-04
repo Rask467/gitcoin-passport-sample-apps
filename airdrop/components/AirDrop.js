@@ -140,7 +140,12 @@ export default function AirDrop() {
               <p>
                 Your score isn't high enough, collect more stamps to qualify.
               </p>
-              <p>passport score: {passportScore | 0}</p>
+              <p>
+                passport score:{" "}
+                <span style={{ color: "rgb(111 63 245" }}>
+                  {passportScore | 0}
+                </span>
+              </p>
               <p>minimum needed: 1</p>
             </div>
           );
@@ -148,7 +153,10 @@ export default function AirDrop() {
           return (
             <div>
               <h3>You've been added to the airdrop!</h3>
-              <p>passport score: {passportScore}</p>
+              <p>
+                passport score:{" "}
+                <span style={{ color: "rgb(111 63 245" }}>{passportScore}</span>
+              </p>
             </div>
           );
         }
