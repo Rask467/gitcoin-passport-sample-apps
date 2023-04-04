@@ -80,6 +80,25 @@
   padding: 4rem 0;
 }
 
+.placeholder {
+  border: 2px dotted rgb(111, 63, 245);
+  background: linear-gradient(to right, rgba(45, 26, 50, 0.6) 0%, 27.812498807907104%, rgba(88, 30, 131, 0.6) 55.62499761581421%, 77.8124988079071%, rgba(175, 134, 152, 0.6) 100%);
+  height: 600px;
+  width: 600px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: white;
+}
+
+.placeholdertext {
+  opacity: 0.7;
+  font-weight:200;
+  font-size: 30px;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {

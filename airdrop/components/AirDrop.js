@@ -157,7 +157,7 @@ export default function AirDrop() {
           <button
             style={{
               padding: "20px 30px",
-              backgroundColor: "rgb(111 63 245",
+              backgroundColor: "rgb(111 63 245)",
               border: "none",
               color: "white",
               cursor: "pointer",

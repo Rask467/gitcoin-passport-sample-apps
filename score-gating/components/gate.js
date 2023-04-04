@@ -3,9 +3,11 @@ import axios from "axios";
 import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
 import { useAccount } from "wagmi";
+import styles from "@/styles/Home.module.css";
+import Image from "next/image";
 
 export default function Gate() {
-  const { address } = useAccount({
+  const { address, isConnecting } = useAccount({
     onDisconnect() {
       setNonce("");
       setPassportScore(0);
@@ -99,13 +101,39 @@ export default function Gate() {
   const [nonce, setNonce] = useState("");
   const [passportScore, setPassportScore] = useState(0);
 
-  return (
-    <div>
-      {passportScore > 1 ? (
-        <p>Special content!</p>
-      ) : (
-        <p>You don't have a high enough score.</p>
-      )}
-    </div>
-  );
+  function renderContent() {
+    if (address && passportScore > 1) {
+      return (
+        <Image
+          src="/cubes.png"
+          alt="Purple Cubes"
+          width={600}
+          height={600}
+          unoptimized
+        />
+      );
+    } else if (address) {
+      return (
+        <div>
+          <div class={styles.placeholder}>
+            <p class={styles.placeholdertext}>
+              You don't have a high enough score
+            </p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div class={styles.placeholder}>
+            <p class={styles.placeholdertext}>
+              Connect your wallet to reveal...
+            </p>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <div>{renderContent()}</div>;
 }

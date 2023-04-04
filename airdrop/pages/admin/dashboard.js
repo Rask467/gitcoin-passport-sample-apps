@@ -71,36 +71,38 @@ export default function Dashboard({ data }) {
         </div>
         <div>
           <h2>Total eligible addresses: {data.length}</h2>
-          <div style={{ marginTop: "20px" }}>
-            <button
-              style={{
-                padding: "20px 30px",
-                backgroundColor: "rgb(111 63 245",
-                border: "none",
-                color: "white",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-              onClick={getMerkleRoot}
-            >
-              Generate Merkle Root
-            </button>
-            {merkleRoot !== "" ? <h4>Merkle Root: {merkleRoot}</h4> : null}
-          </div>
-          <div style={{ marginTop: "20px" }}>
-            <button
-              style={{
-                padding: "20px 25px",
-                backgroundColor: "rgb(111 63 245",
-                border: "none",
-                color: "white",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-              onClick={downloadData}
-            >
-              Download Airdrop Data
-            </button>
+          <div style={{ marginTop: "10px" }}>
+            <div>
+              <button
+                style={{
+                  padding: "20px 25px",
+                  backgroundColor: "rgb(111 63 245)",
+                  border: "none",
+                  color: "white",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+                onClick={downloadData}
+              >
+                Download Airdrop Data
+              </button>
+            </div>
+            <div style={{ marginTop: "15px" }}>
+              <button
+                style={{
+                  padding: "20px 30px",
+                  backgroundColor: "rgb(111 63 245)",
+                  border: "none",
+                  color: "white",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+                onClick={getMerkleRoot}
+              >
+                Generate Merkle Root
+              </button>
+              {merkleRoot !== "" ? <h4>Merkle Root: {merkleRoot}</h4> : null}
+            </div>
           </div>
         </div>
 
