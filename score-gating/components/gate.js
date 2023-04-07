@@ -115,8 +115,8 @@ export default function Gate() {
     } else if (address) {
       return (
         <div>
-          <div class={styles.placeholder}>
-            <p class={styles.placeholdertext}>
+          <div className={styles.placeholder}>
+            <p className={styles.placeholdertext}>
               You don't have a high enough score
             </p>
           </div>
@@ -125,8 +125,8 @@ export default function Gate() {
     } else {
       return (
         <div>
-          <div class={styles.placeholder}>
-            <p class={styles.placeholdertext}>
+          <div className={styles.placeholder}>
+            <p className={styles.placeholdertext}>
               Connect your wallet to reveal...
             </p>
           </div>
