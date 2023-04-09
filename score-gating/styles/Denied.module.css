@@ -1,0 +1,9 @@
+.center {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  position: relative;
+  padding: 4rem 0;
+  flex-direction: column;
+  max-width: 700px;
+}
