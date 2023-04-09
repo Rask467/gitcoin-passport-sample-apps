@@ -1,16 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSignMessage } from "wagmi";
+import { useSignMessage, useEnsName } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
 import { useAccount } from "wagmi";
 
 export default function Score() {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
   const { address } = useAccount({
     onDisconnect() {
       setNonce("");
       setPassportScore(0);
     },
   });
+
+  const { data, isError, isLoading } = useEnsName({
+    address: address,
+  })
 
   useEffect(() => {
     setNonce("");
@@ -95,15 +103,36 @@ export default function Score() {
     },
   });
 
+  // This isMounted check is needed to prevent hydration errors with next.js server side rendering.
+  // See https://github.com/wagmi-dev/wagmi/issues/542 for more details.
+  const [isMounted, setIsMounted] = useState(false);
   const [nonce, setNonce] = useState("");
   const [passportScore, setPassportScore] = useState(0);
 
+  function abbreviateAddress(ethAddress) {
+    if (!ethAddress || ethAddress.length < 10) {
+      throw new Error('Invalid Ethereum address');
+    }
+  
+    const prefix = ethAddress.slice(0, 6);
+    const suffix = ethAddress.slice(-4);
+  
+    return `${prefix}...${suffix}`;
+  }
+
+  function renderContent() {
+    if (isMounted && address) {
+      return <p>
+        Welcome, {data || abbreviateAddress(address)} (<span style={{ color: "rgb(111 63 245" }}>{passportScore}</span>)
+      </p>
+    } else {
+      return <p>Connect your wallet to see your score</p>
+    }
+  }
+
   return (
     <div>
-      <p>
-        Your passport score is:{" "}
-        <span style={{ color: "rgb(111 63 245" }}>{passportScore}</span>
-      </p>
+      {renderContent()}
     </div>
   );
 }
