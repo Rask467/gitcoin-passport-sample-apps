@@ -5,18 +5,17 @@ import { verifyMessage } from "ethers/lib/utils";
 import { useAccount } from "wagmi";
 import styles from "@/styles/Home.module.css";
 import Image from "next/image";
+import Router from 'next/router'
 
 export default function Gate() {
   const { address, isConnecting } = useAccount({
     onDisconnect() {
       setNonce("");
-      setPassportScore(0);
     },
   });
 
   useEffect(() => {
     setNonce("");
-    setPassportScore(0);
     async function fetchPassportScore() {
       //  Step #1 (Optional, only required if using the "signature" param when submitting a user's passport. See https://docs.passport.gitcoin.co/building-with-passport/scorer-api/endpoint-definition#submit-passport)
       //    We call our /api/scorer-message endpoint (/pages/api/scorer-message.js) which internally calls /registry/signing-message
@@ -88,52 +87,23 @@ export default function Gate() {
 
       // Make sure to check the status
       if (scoreResponse.data.status === "ERROR") {
-        setPassportScore(0);
         alert(scoreResponse.data.error);
         return;
       }
 
-      // Store the user's passport score for later use.
-      setPassportScore(scoreResponse.data.score);
+      if (scoreResponse.data.score >= 1) {
+        await Router.push("/dashboard")
+      } else {
+        await Router.push("/denied")
+      }
     },
   });
 
   const [nonce, setNonce] = useState("");
-  const [passportScore, setPassportScore] = useState(0);
 
-  function renderContent() {
-    if (address && passportScore > 1) {
-      return (
-        <Image
-          src="/cubes.png"
-          alt="Purple Cubes"
-          width={600}
-          height={600}
-          unoptimized
-        />
-      );
-    } else if (address) {
-      return (
-        <div>
-          <div className={styles.placeholder}>
-            <p className={styles.placeholdertext}>
-              You don't have a high enough score
-            </p>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div className={styles.placeholder}>
-            <p className={styles.placeholdertext}>
-              Connect your wallet to reveal...
-            </p>
-          </div>
-        </div>
-      );
-    }
-  }
-
-  return <div>{renderContent()}</div>;
+  return  (
+  <div className={styles.intro}>
+    <p>Sign in by connecting your wallet. If your Passport score is high enough, you'll be able to sign in to the Dashboard. If not, you'll be asked to increase your score.</p>
+  </div>
+  );
 }
