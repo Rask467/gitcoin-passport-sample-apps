@@ -4,7 +4,6 @@ import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
 import { useAccount } from "wagmi";
 import styles from "@/styles/Home.module.css";
-import Image from "next/image";
 import Router from 'next/router'
 
 export default function Gate() {
