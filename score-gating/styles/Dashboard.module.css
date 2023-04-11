@@ -1,6 +1,4 @@
 .container {
-  padding: 50px;
-  width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -8,37 +6,25 @@
   gap: 30px;
 }
 
-.leftmenu {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 4;
-  background-color: orange;
-  padding: 20px;
-}
-
 .header {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-column-end: 5;
   grid-row-start: 1;
   grid-row-end: 2;
-  background-color: green;
+  margin-top: 25px;
+  border-radius: 10px;
+  border: 2px solid #d9d6ff;
   padding: 20px;
 }
 
 .photocontainer {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-column-end: 5;
   grid-row-start: 2;
   grid-row-end: 4;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: space-between;
-}
-
-.photo {
-  height: 200px;
-  background-color: pink;
-  flex-basis: 30%;
+  justify-content: space-evenly;
+  gap: 20px;
+  align-items: center;
 }

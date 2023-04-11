@@ -8,6 +8,7 @@ import axios from "axios";
 import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
 import { useAccount } from "wagmi";
+import Router from 'next/router'
 
 export default function Denied() {
   const { address, isConnecting } = useAccount({
