@@ -13,7 +13,7 @@
   grid-row-end: 2;
   margin-top: 25px;
   border-radius: 10px;
-  border: 2px solid #d9d6ff;
+  background-color: rgba(217, 214, 255, 0.3);
   padding: 20px;
 }
 

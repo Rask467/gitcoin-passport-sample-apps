@@ -2,12 +2,17 @@ import dstyles from "@/styles/Dashboard.module.css";
 import styles from "@/styles/Home.module.css";
 import Image from "next/image";
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useAccount } from "wagmi";
+import Router from 'next/router'
 
 export default function Dashboard() {
+  const {address} = useAccount({
+    onDisconnect() {
+      Router.push("/")
+    },
+  });
+
   return (
     <>
     <Head>

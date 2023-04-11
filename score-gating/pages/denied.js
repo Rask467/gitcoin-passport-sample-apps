@@ -5,15 +5,14 @@ import dstyles from "@/styles/Denied.module.css"
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import Router from 'next/router'
 
 export default function Denied() {
-  const { address, isConnecting } = useAccount({
+  const { address } = useAccount({
     onDisconnect() {
-      setNonce("");
+      Router.push("/")
     },
   });
 
